@@ -1,0 +1,217 @@
+# i3 config file (v4)
+#
+# Por favor mira https://i3wm.org/docs/userguide.html para una referencia completa!
+
+set $mod Mod4
+
+# ==============================================================================
+# VARIABLES Y COLORES
+# ==============================================================================
+
+# Fuente para los títulos de ventana. También usada en la barra.
+font pango:RobotoMono Nerd Font Regular 9
+
+# Colores
+set $bg-color            #2f343f
+set $inactive-bg-color   #2f343f
+set $text-color          #f3f4f5
+set $inactive-text-color #676E7D
+set $urgent-bg-color     #E53935
+
+# Colores de Ventana
+#                       borde               fondo              texto                indicador
+client.focused          #6272a4             #6272a4            #f8f8f2              #6272a4
+client.focused_inactive #44475a             #44475a            #f8f8f2              #44475a
+client.unfocused        #282a36             #282a36            #bfbfbf              #282a36
+client.urgent           #44475a             #ff5555            #f8f8f2              #ff5555
+client.placeholder      #282a36             #282a36            #f8f8f2              #282a36
+
+client.background       #fdf6e3
+
+# ==============================================================================
+# CONFIGURACIÓN GENERAL
+# ==============================================================================
+
+# Usar Mouse+$mod para arrastrar ventanas flotantes a la posición deseada
+floating_modifier $mod
+
+# Espaciado (Gaps)
+gaps inner 10
+gaps outer 5
+smart_gaps on
+
+# Bordes
+for_window [class="^.*"] border pixel 2
+default_border pixel 2
+default_floating_border pixel 2
+
+# ==============================================================================
+# ATAJOS DE TECLADO (KEYBINDINGS)
+# ==============================================================================
+
+# --- Aplicaciones ---
+bindsym $mod+Return exec alacritty        # Abrir terminal
+bindsym $mod+d exec "rofi -show run"      # Abrir lanzador de comandos
+bindsym $mod+Shift+d exec "rofi -show drun" # Abrir lanzador de aplicaciones
+bindsym $mod+w exec firefox               # Abrir navegador Firefox
+bindsym $mod+f exec thunar                # Abrir gestor de archivos
+
+# --- Herramientas de Hacking ---
+bindsym $mod+Shift+b exec burpsuite       # Abrir Burp Suite
+bindsym $mod+Shift+w exec wireshark       # Abrir Wireshark
+bindsym $mod+Shift+t exec "sh -c 'read -p \"Enter Target IP: \" target; echo \$target > ~/.config/i3/target'" # Setear Target IP
+
+# --- Sistema ---
+bindsym $mod+Shift+q kill                 # Cerrar ventana enfocada
+bindsym $mod+Shift+c reload               # Recargar configuración de i3
+bindsym $mod+Shift+r restart              # Reiniciar i3
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m '¿Realmente quieres salir de i3?' -b 'Sí, salir' 'i3-msg exit'" # Salir de i3
+
+# --- Capturas de Pantalla ---
+bindsym $mod+P exec flameshot gui         # Captura de pantalla interactiva
+bindsym Print exec flameshot full -p ~/Pictures/Screenshots # Captura de pantalla completa
+
+# --- Multimedia y Volumen ---
+# Controles de Pulse Audio
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% # Subir volumen
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% # Bajar volumen
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle       # Silenciar (Mute)
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle # Silenciar Micrófono
+
+# Brillo de pantalla
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20   # Subir brillo
+bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # Bajar brillo
+
+# --- Foco de Ventana ---
+bindsym $mod+j focus left       # Enfocar izquierda
+bindsym $mod+k focus down       # Enfocar abajo
+bindsym $mod+l focus up         # Enfocar arriba
+bindsym $mod+semicolon focus right # Enfocar derecha
+
+bindsym $mod+Left focus left    # Enfocar izquierda (flechas)
+bindsym $mod+Down focus down    # Enfocar abajo (flechas)
+bindsym $mod+Up focus up        # Enfocar arriba (flechas)
+bindsym $mod+Right focus right  # Enfocar derecha (flechas)
+
+# --- Movimiento de Ventana ---
+bindsym $mod+Shift+j move left        # Mover ventana a la izquierda
+bindsym $mod+Shift+k move down        # Mover ventana abajo
+bindsym $mod+Shift+l move up          # Mover ventana arriba
+bindsym $mod+Shift+semicolon move right # Mover ventana a la derecha
+
+bindsym $mod+Shift+Left move left     # Mover ventana a la izquierda (flechas)
+bindsym $mod+Shift+Down move down     # Mover ventana abajo (flechas)
+bindsym $mod+Shift+Up move up         # Mover ventana arriba (flechas)
+bindsym $mod+Shift+Right move right   # Mover ventana a la derecha (flechas)
+
+# --- Manipulación de Diseño (Layout) ---
+bindsym $mod+h split h                # Dividir horizontalmente
+bindsym $mod+v split v                # Dividir verticalmente
+bindsym $mod+Shift+f fullscreen toggle # Pantalla completa
+bindsym $mod+s layout stacking        # Diseño apilado (stacking)
+bindsym $mod+Shift+w layout tabbed    # Diseño en pestañas (tabbed)
+bindsym $mod+e layout toggle split    # Alternar división
+bindsym $mod+Shift+space floating toggle # Alternar modo flotante
+bindsym $mod+space focus mode_toggle  # Alternar foco entre flotante/tiling
+bindsym $mod+a focus parent           # Enfocar contenedor padre
+
+# --- Espacios de Trabajo (Workspaces) ---
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Cambiar a espacio de trabajo
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# Mover ventana enfocada a espacio de trabajo
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# --- Modo Redimensionar ---
+mode "resize" {
+    bindsym j resize shrink width 10 px or 10 ppt
+    bindsym k resize grow height 10 px or 10 ppt
+    bindsym l resize shrink height 10 px or 10 ppt
+    bindsym semicolon resize grow width 10 px or 10 ppt
+
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+
+    bindsym Return mode "default" # Volver a modo normal
+    bindsym Escape mode "default" # Volver a modo normal
+    bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize" # Entrar en modo redimensionar
+
+# ==============================================================================
+# REGLAS DE VENTANA
+# ==============================================================================
+
+# Abrir aplicaciones específicas en modo flotante
+for_window [class="Pavucontrol"] floating enable
+for_window [class="Arandr"] floating enable
+for_window [class="Lxappearance"] floating enable
+for_window [class="Nitrogen"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+
+# ==============================================================================
+# INICIO AUTOMÁTICO (STARTUP)
+# ==============================================================================
+
+# Fondo de pantalla
+exec_always --no-startup-id sh ~/.fehbg
+
+# Compositor (Transparencias y sombras)
+exec_always --no-startup-id compton -b --config ~/.config/compton/compton.conf
+
+# Gestor de Portapapeles
+exec_always --no-startup-id ~/.config/i3/clipboard_fix.sh
+
+# ==============================================================================
+# BARRA DE ESTADO (STATUS BAR)
+# ==============================================================================
+
+bar {
+    status_command i3blocks -c ~/.config/i3/i3blocks.conf
+    i3bar_command i3bar -t
+    position top
+    height 30
+    font pango:RobotoMono Nerd Font Regular 10
+    strip_workspace_numbers yes
+    
+    colors {
+        background $bg-color
+        separator #757575
+        #                  borde              fondo              texto
+        focused_workspace  $bg-color          $bg-color          $text-color
+        inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
+        urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
+    }
+}
