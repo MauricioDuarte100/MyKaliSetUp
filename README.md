@@ -12,31 +12,41 @@ After the script is done reboot and select i3 (top right corner) on the login sc
 
 ## Features & Optimizations
 
+- **Modern Compositor**: Switched to **Picom** for better performance and transparency without glitches.
+- **Hardware Controls**: Volume and Brightness controls using `brightnessctl` (works on modern hardware).
+- **Notifications**: Integrated `Dunst` for system notifications.
 - **Clean Config**: Optimized i3 config with variables for easy color customization.
-- **Media Keys**: Volume and brightness controls work out of the box.
 - **Window Rules**: Common apps like `Pavucontrol` and `Arandr` open in floating mode automatically.
-- **Better Keybindings**: Logical grouping of keybindings for easier memorization.
 
 ## Keybindings Cheat Sheet
 
 | Keybinding | Action |
 | :--- | :--- |
+| **Apps** | |
 | `Mod+Return` | Open Terminal (Alacritty) |
-| `Mod+d` | Open Application Launcher (Rofi Run) |
-| `Mod+Shift+d` | Open Application Launcher (Rofi Drun) |
+| `Mod+d` | **Open Apps Menu** (Rofi Drun) |
+| `Mod+Shift+d` | Open Command Runner (Rofi Run) |
 | `Mod+w` | Open Firefox |
 | `Mod+f` | Open File Manager (Thunar) |
-| `Mod+Shift+q` | Kill Focused Window |
+| **System** | |
+| `Mod+q` | Kill Focused Window |
+| `Mod+Shift+q` | Kill Focused Window (Alternative) |
 | `Mod+Shift+c` | Reload i3 Config |
 | `Mod+Shift+r` | Restart i3 |
 | `Mod+Shift+e` | Exit i3 |
-| `Mod+P` | Screenshot (GUI) |
-| `Print` | Full Screenshot (Saved to Pictures) |
+| **Screenshots** | |
+| `Print` | **Screenshot GUI** (Select & Copy to Clipboard) |
+| `Scroll Lock` | Screenshot GUI (Alternative) |
+| `Mod+P` | Screenshot GUI (Alternative) |
+| **Hacking Tools** | |
+| `Mod+Shift+b` | Open Burp Suite |
+| `Mod+Shift+w` | Open Wireshark |
+| **Window Mgmt** | |
 | `Mod+Shift+Space` | Toggle Floating Mode |
 | `Mod+Space` | Focus Toggle (Tiling/Floating) |
 | `Mod+r` | Resize Mode |
 
-> **Note**: `Mod` key is set to `Super` (Windows Key) by default.
+> **Note**: `Mod` key is set to `Super` (Windows Key) by default. Screenshots are copied to the clipboard automatically upon selection.
 
 
 
