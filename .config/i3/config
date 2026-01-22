@@ -50,70 +50,71 @@ default_floating_border pixel 2
 # ==============================================================================
 
 # --- Aplicaciones ---
-bindsym $mod+Return exec alacritty        # Abrir terminal
-bindsym $mod+d exec "rofi -show run"      # Abrir lanzador de comandos
-bindsym $mod+Shift+d exec "rofi -show drun" # Abrir lanzador de aplicaciones
-bindsym $mod+w exec firefox               # Abrir navegador Firefox
-bindsym $mod+f exec thunar                # Abrir gestor de archivos
+bindsym $mod+Return exec alacritty
+bindsym $mod+d exec "rofi -show drun"
+bindsym $mod+Shift+d exec "rofi -show run"
+bindsym $mod+w exec firefox
+bindsym $mod+f exec thunar
 
 # --- Herramientas de Hacking ---
-bindsym $mod+Shift+b exec burpsuite       # Abrir Burp Suite
-bindsym $mod+Shift+w exec wireshark       # Abrir Wireshark
-bindsym $mod+Shift+t exec "sh -c 'read -p \"Enter Target IP: \" target; echo \$target > ~/.config/i3/target'" # Setear Target IP
+bindsym $mod+Shift+b exec burpsuite
+bindsym $mod+Shift+w exec wireshark
 
 # --- Sistema ---
-bindsym $mod+Shift+q kill                 # Cerrar ventana enfocada
-bindsym $mod+Shift+c reload               # Recargar configuración de i3
-bindsym $mod+Shift+r restart              # Reiniciar i3
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m '¿Realmente quieres salir de i3?' -b 'Sí, salir' 'i3-msg exit'" # Salir de i3
+bindsym $mod+q kill
+bindsym $mod+Shift+q kill
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m '¿Realmente quieres salir de i3?' -b 'Sí, salir' 'i3-msg exit'"
 
 # --- Capturas de Pantalla ---
-bindsym $mod+P exec flameshot gui         # Captura de pantalla interactiva
-bindsym Print exec flameshot full -p ~/Pictures/Screenshots # Captura de pantalla completa
+bindsym $mod+P exec flameshot gui
+bindsym Print exec --no-startup-id flameshot gui
+bindsym Scroll_Lock exec --no-startup-id flameshot gui
 
 # --- Multimedia y Volumen ---
 # Controles de Pulse Audio
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% # Subir volumen
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% # Bajar volumen
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle       # Silenciar (Mute)
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle # Silenciar Micrófono
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
 # Brillo de pantalla
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20   # Subir brillo
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # Bajar brillo
+bindsym XF86MonBrightnessUp exec brightnessctl set +10%
+bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
 
 # --- Foco de Ventana ---
-bindsym $mod+j focus left       # Enfocar izquierda
-bindsym $mod+k focus down       # Enfocar abajo
-bindsym $mod+l focus up         # Enfocar arriba
-bindsym $mod+semicolon focus right # Enfocar derecha
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
 
-bindsym $mod+Left focus left    # Enfocar izquierda (flechas)
-bindsym $mod+Down focus down    # Enfocar abajo (flechas)
-bindsym $mod+Up focus up        # Enfocar arriba (flechas)
-bindsym $mod+Right focus right  # Enfocar derecha (flechas)
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
 
 # --- Movimiento de Ventana ---
-bindsym $mod+Shift+j move left        # Mover ventana a la izquierda
-bindsym $mod+Shift+k move down        # Mover ventana abajo
-bindsym $mod+Shift+l move up          # Mover ventana arriba
-bindsym $mod+Shift+semicolon move right # Mover ventana a la derecha
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
 
-bindsym $mod+Shift+Left move left     # Mover ventana a la izquierda (flechas)
-bindsym $mod+Shift+Down move down     # Mover ventana abajo (flechas)
-bindsym $mod+Shift+Up move up         # Mover ventana arriba (flechas)
-bindsym $mod+Shift+Right move right   # Mover ventana a la derecha (flechas)
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
 
 # --- Manipulación de Diseño (Layout) ---
-bindsym $mod+h split h                # Dividir horizontalmente
-bindsym $mod+v split v                # Dividir verticalmente
-bindsym $mod+Shift+f fullscreen toggle # Pantalla completa
-bindsym $mod+s layout stacking        # Diseño apilado (stacking)
-bindsym $mod+Shift+w layout tabbed    # Diseño en pestañas (tabbed)
-bindsym $mod+e layout toggle split    # Alternar división
-bindsym $mod+Shift+space floating toggle # Alternar modo flotante
-bindsym $mod+space focus mode_toggle  # Alternar foco entre flotante/tiling
-bindsym $mod+a focus parent           # Enfocar contenedor padre
+bindsym $mod+h split h
+bindsym $mod+v split v
+bindsym $mod+Shift+f fullscreen toggle
+bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
 
 # --- Espacios de Trabajo (Workspaces) ---
 set $ws1 "1"
@@ -163,11 +164,11 @@ mode "resize" {
     bindsym Up resize shrink height 10 px or 10 ppt
     bindsym Right resize grow width 10 px or 10 ppt
 
-    bindsym Return mode "default" # Volver a modo normal
-    bindsym Escape mode "default" # Volver a modo normal
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
     bindsym $mod+r mode "default"
 }
-bindsym $mod+r mode "resize" # Entrar en modo redimensionar
+bindsym $mod+r mode "resize"
 
 # ==============================================================================
 # REGLAS DE VENTANA
@@ -189,10 +190,22 @@ for_window [window_role="task_dialog"] floating enable
 exec_always --no-startup-id sh ~/.fehbg
 
 # Compositor (Transparencias y sombras)
-exec_always --no-startup-id compton -b --config ~/.config/compton/compton.conf
+exec_always --no-startup-id picom -b --config ~/.config/picom/picom.conf
+
+# Configurar teclado a español
+exec --no-startup-id setxkbmap es
 
 # Gestor de Portapapeles
 exec_always --no-startup-id ~/.config/i3/clipboard_fix.sh
+
+# Notificaciones
+exec --no-startup-id dunst
+
+# Gestión de Energía
+exec --no-startup-id xfce4-power-manager
+
+# Agente de Autenticación (para pedir sudo en GUI)
+exec --no-startup-id lxpolkit
 
 # ==============================================================================
 # BARRA DE ESTADO (STATUS BAR)
