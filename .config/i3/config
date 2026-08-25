@@ -1,5 +1,5 @@
 # ==============================================================================
-# 🛡️ I3 CONFIGURATION (v4) - KALI CYBER ENVIRONMENT (xct Inspired)
+# 🛡️ I3 CONFIGURATION (v4) - KALI CYBER ENVIRONMENT
 # ==============================================================================
 
 set $mod Mod4
@@ -101,30 +101,48 @@ assign [class="(?i)cherrytree"] $ws5
 # ==============================================================================
 
 # --- Aplicaciones y Terminales ---
-bindsym $mod+Return exec alacritty                           # Abrir terminal Alacritty
-bindsym $mod+u exec ~/.config/i3/scripts/scratchpad.sh        # Terminal flotante Scratchpad
-bindsym $mod+d exec "rofi -show run"                         # Lanzador de comandos
-bindsym $mod+Shift+d exec "rofi -show drun"                  # Lanzador de aplicaciones
-bindsym $mod+w exec firefox                                  # Abrir navegador Firefox
-bindsym $mod+f exec thunar                                   # Abrir gestor de archivos Thunar
+# Abrir terminal Alacritty
+bindsym $mod+Return exec --no-startup-id alacritty
+# Terminal flotante Scratchpad
+bindsym $mod+u exec --no-startup-id ~/.config/i3/scripts/scratchpad.sh
+# Lanzador de comandos Rofi
+bindsym $mod+d exec --no-startup-id rofi -show run
+# Lanzador de aplicaciones Rofi
+bindsym $mod+Shift+d exec --no-startup-id rofi -show drun
+# Abrir navegador Firefox
+bindsym $mod+w exec --no-startup-id firefox
+# Abrir gestor de archivos Thunar
+bindsym $mod+f exec --no-startup-id thunar
 
 # --- Ciberseguridad & CTF ---
-bindsym $mod+c exec ~/.config/i3/scripts/copy_target.sh      # Copiar Target IP al portapapeles
-bindsym $mod+Shift+t exec ~/.config/i3/scripts/set_target.sh # Fijar Target IP (Prompt Rofi)
-bindsym $mod+Shift+x exec ~/.config/i3/scripts/set_target.sh --clear # Limpiar Target IP
-bindsym $mod+Shift+b exec burpsuite                          # Abrir Burp Suite
-bindsym $mod+Shift+w exec wireshark                          # Abrir Wireshark
+# Copiar Target IP al portapapeles
+bindsym $mod+c exec --no-startup-id ~/.config/i3/scripts/copy_target.sh
+# Fijar Target IP (Prompt Rofi)
+bindsym $mod+Shift+t exec --no-startup-id ~/.config/i3/scripts/set_target.sh
+# Limpiar Target IP
+bindsym $mod+Shift+x exec --no-startup-id ~/.config/i3/scripts/set_target.sh --clear
+# Abrir Burp Suite
+bindsym $mod+Shift+b exec --no-startup-id burpsuite
+# Abrir Wireshark
+bindsym $mod+Shift+w exec --no-startup-id wireshark
 
 # --- Sistema y Sesión ---
-bindsym $mod+Shift+q kill                                    # Cerrar ventana enfocada
-bindsym $mod+Shift+c reload                                  # Recargar configuración de i3
-bindsym $mod+Shift+r restart                                 # Reiniciar i3wm
-bindsym $mod+Shift+e exec ~/.config/i3/scripts/powermenu.sh  # Menú de Apagado / Salida
-bindsym $mod+Shift+Escape exec --no-startup-id i3lock -c 0f141c # Bloquear pantalla
+# Cerrar ventana enfocada
+bindsym $mod+Shift+q kill
+# Recargar configuración de i3
+bindsym $mod+Shift+c reload
+# Reiniciar i3wm
+bindsym $mod+Shift+r restart
+# Menú de Apagado / Salida
+bindsym $mod+Shift+e exec --no-startup-id ~/.config/i3/scripts/powermenu.sh
+# Bloquear pantalla
+bindsym $mod+Shift+Escape exec --no-startup-id i3lock -c 0f141c
 
 # --- Capturas de Pantalla ---
-bindsym $mod+P exec flameshot gui                            # Captura de pantalla interactiva
-bindsym Print exec flameshot full -p ~/Pictures/Screenshots  # Captura de pantalla completa
+# Captura de pantalla interactiva
+bindsym $mod+P exec --no-startup-id flameshot gui
+# Captura de pantalla completa
+bindsym Print exec --no-startup-id flameshot full -p ~/Pictures/Screenshots
 
 # --- Multimedia y Volumen ---
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
@@ -163,7 +181,7 @@ bindsym $mod+h split h
 bindsym $mod+v split v
 bindsym $mod+Shift+f fullscreen toggle
 bindsym $mod+s layout stacking
-bindsym $mod+Shift+w layout tabbed
+bindsym $mod+t layout tabbed
 bindsym $mod+e layout toggle split
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
