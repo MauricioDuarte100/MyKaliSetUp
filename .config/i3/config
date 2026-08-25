@@ -132,9 +132,9 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
-# --- Brillo de Pantalla ---
-bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10
-bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10
+# --- Brillo de Pantalla (Brightnessctl / Xbacklight) ---
+bindsym XF86MonBrightnessUp exec --no-startup-id sh -c "brightnessctl set +10% 2>/dev/null || xbacklight -inc 10"
+bindsym XF86MonBrightnessDown exec --no-startup-id sh -c "brightnessctl set 10%- 2>/dev/null || xbacklight -dec 10"
 
 # --- Foco de Ventana (Vim + Flechas) ---
 bindsym $mod+j focus left

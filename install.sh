@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ==============================================================================
 # Kali-Clean: Minimalist & Ultra-Fast i3wm Cyber Environment Installer
-# Inspired by xct (HackTheBox Omniscient) - Ultimate Pentesting & CTF Setup
+# Para la comunidad con amor del sultan
 # ==============================================================================
 
 set -e
@@ -38,22 +38,18 @@ if [ "$(id -u)" -eq 0 ]; then
     exit 1
 fi
 
-BANNER="
-   ███████╗  ██████╗  ██╗     ██╗      ██████╗██╗     ███████╗ █████╗ ███╗   ██╗
-   ██╔════╝ ██╔═══██╗ ██║     ██║     ██╔════╝██║     ██╔════╝██╔══██╗████╗  ██║
-   ███████╗ ██║   ██║ ██║     ██║     ██║     ██║     █████╗  ███████║██╔██╗ ██║
-   ╚════██║ ██║   ██║ ██║     ██║     ██║     ██║     ██╔══╝  ██╔══██║██║╚██╗██║
-   ███████║ ╚██████╔╝ ███████╗███████╗╚██████╗███████╗███████╗██║  ██║██║ ╚████║
-   ╚══════╝  ╚═════╝  ╚══════╝╚══════╝ ╚═════╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝
-   ${BOLD}${CYAN}Kali Linux i3wm xct Edition - HackTheBox & Cybersecurity Setup${NC}
-"
-echo -e "$BANNER"
+echo ""
+echo -e "${BOLD}${CYAN}==============================================================================${NC}"
+echo -e "${BOLD}${GREEN}   Para la comunidad con amor del sultan${NC}"
+echo -e "${BOLD}${CYAN}   Kali / Parrot Linux i3wm xct Edition - Cybersecurity & CTF Setup${NC}"
+echo -e "${BOLD}${CYAN}==============================================================================${NC}"
+echo ""
 
 # ==============================================================================
 # 1. SYSTEM UPDATE
 # ==============================================================================
 log_info "Updating package lists..."
-sudo apt update -y
+sudo apt update -y || log_warning "Some package lists failed to update, continuing..."
 
 # ==============================================================================
 # 2. INSTALL DEPENDENCIES & WINDOW MANAGER (i3wm + Tmux + Zsh)
@@ -90,7 +86,7 @@ BASE_PKGS=(
     unclutter
     imagemagick
     arandr
-    xautolock
+    brightnessctl
     xbacklight
     fonts-font-awesome
     fonts-roboto
@@ -107,7 +103,26 @@ BASE_PKGS=(
     python3-pip
 )
 
-sudo apt install -y "${BASE_PKGS[@]}"
+# Resilient installation function: batch with per-package fallback to prevent halts on missing packages
+install_packages() {
+    local pkgs=("$@")
+    local failed_pkgs=()
+
+    if ! sudo apt install -y "${pkgs[@]}" 2>/dev/null; then
+        log_warning "Batch install encountered missing packages. Installing available packages individually..."
+        for pkg in "${pkgs[@]}"; do
+            if ! sudo apt install -y "$pkg" 2>/dev/null; then
+                failed_pkgs+=("$pkg")
+            fi
+        done
+        if [ ${#failed_pkgs[@]} -gt 0 ]; then
+            log_warning "The following optional packages were skipped (not in your distro repos): ${failed_pkgs[*]}"
+        fi
+    fi
+}
+
+install_packages "${BASE_PKGS[@]}"
+log_success "Base packages installed successfully."
 
 # ==============================================================================
 # 3. NERD FONTS INSTALLATION (Iosevka & RobotoMono)
@@ -119,20 +134,24 @@ FONT_DIR="$HOME/.local/share/fonts"
 if [ ! -f "$FONT_DIR/IosevkaNerdFont-Regular.ttf" ] && [ ! -f "$FONT_DIR/Iosevka.zip" ]; then
     log_info "Downloading Iosevka Nerd Font..."
     wget -q --show-progress -O /tmp/Iosevka.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Iosevka.zip || \
-    wget -q --show-progress -O /tmp/Iosevka.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Iosevka.zip
-    unzip -qo /tmp/Iosevka.zip -d "$FONT_DIR/"
-    rm -f /tmp/Iosevka.zip
+    wget -q --show-progress -O /tmp/Iosevka.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Iosevka.zip || true
+    if [ -f /tmp/Iosevka.zip ]; then
+        unzip -qo /tmp/Iosevka.zip -d "$FONT_DIR/" 2>/dev/null || true
+        rm -f /tmp/Iosevka.zip
+    fi
 fi
 
 if [ ! -f "$FONT_DIR/RobotoMonoNerdFont-Regular.ttf" ] && [ ! -f "$FONT_DIR/RobotoMono.zip" ]; then
     log_info "Downloading RobotoMono Nerd Font..."
     wget -q --show-progress -O /tmp/RobotoMono.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/RobotoMono.zip || \
-    wget -q --show-progress -O /tmp/RobotoMono.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/RobotoMono.zip
-    unzip -qo /tmp/RobotoMono.zip -d "$FONT_DIR/"
-    rm -f /tmp/RobotoMono.zip
+    wget -q --show-progress -O /tmp/RobotoMono.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/RobotoMono.zip || true
+    if [ -f /tmp/RobotoMono.zip ]; then
+        unzip -qo /tmp/RobotoMono.zip -d "$FONT_DIR/" 2>/dev/null || true
+        rm -f /tmp/RobotoMono.zip
+    fi
 fi
 
-fc-cache -fv >/dev/null 2>&1
+fc-cache -fv >/dev/null 2>&1 || true
 log_success "Nerd fonts installed successfully."
 
 # ==============================================================================
@@ -159,21 +178,21 @@ mkdir -p ~/Pictures/Screenshots
 # Copy configurations
 cp -r .config/i3/* ~/.config/i3/ 2>/dev/null || true
 cp -r .config/i3/scripts/* ~/.config/i3/scripts/ 2>/dev/null || true
-cp .config/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
+cp .config/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml 2>/dev/null || true
 cp .config/rofi/config* ~/.config/rofi/ 2>/dev/null || true
 cp .config/picom/picom.conf ~/.config/picom/picom.conf 2>/dev/null || true
 cp .config/dunst/dunstrc ~/.config/dunst/dunstrc 2>/dev/null || true
 
 # Copy Tmux configuration
-cp .tmux.conf ~/.tmux.conf
+cp .tmux.conf ~/.tmux.conf 2>/dev/null || true
 
 # Copy wallpaper and feh startup script
 cp -r .wallpaper/* ~/.wallpaper/ 2>/dev/null || true
-cp .fehbg ~/.fehbg
+cp .fehbg ~/.fehbg 2>/dev/null || true
 
 # Ensure executable permissions
-chmod +x ~/.fehbg
-chmod +x ~/.config/i3/clipboard_fix.sh
+chmod +x ~/.fehbg 2>/dev/null || true
+chmod +x ~/.config/i3/clipboard_fix.sh 2>/dev/null || true
 chmod +x ~/.config/i3/scripts/*.sh 2>/dev/null || true
 
 # Create default target file
@@ -213,7 +232,7 @@ fi
 echo ""
 log_info "Optimizing system memory and CPU consumption..."
 echo -e "${YELLOW}Do you want to purge heavy desktop environments (GNOME/XFCE) to keep i3 as the sole environment?${NC}"
-echo -e "This reduces idle RAM consumption below 350 MB while preserving LightDM, network connectivity, and all Kali pentesting tools."
+echo -e "This reduces idle RAM consumption below 350 MB while preserving LightDM, network connectivity, and all hacking tools."
 
 CLEAN_DE="yes"
 if [ -t 0 ]; then
@@ -235,16 +254,17 @@ if [ "$CLEAN_DE" = "yes" ]; then
     sudo apt-get install -y --no-install-recommends \
         lightdm lightdm-gtk-greeter xorg x11-xserver-utils \
         network-manager network-manager-gnome \
-        pulseaudio pavucontrol thunar
+        pulseaudio pavucontrol thunar 2>/dev/null || true
     
     # Purge GNOME and XFCE packages safely
     sudo apt-get purge -y \
         kali-desktop-gnome gnome-core gnome-shell gnome-session gdm3 \
-        kali-desktop-xfce xfce4 xfce4-session 2>/dev/null || true
+        kali-desktop-xfce xfce4 xfce4-session \
+        parrot-desktop-mate parrot-desktop-kde 2>/dev/null || true
         
-    sudo apt-get autoremove -y --purge
+    sudo apt-get autoremove -y --purge 2>/dev/null || true
     
-    # Disable GNOME background indexing services
+    # Disable background indexing services if present
     systemctl --user mask tracker-miner-fs-3.service tracker-extract-3.service 2>/dev/null || true
     
     log_success "Desktop environments purged. i3 is configured as the sole window manager."
@@ -259,7 +279,7 @@ log_info "Configuring Oh-My-Zsh and high-productivity plugins..."
 
 # Unattended Oh-My-Zsh install if not already present
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended 2>/dev/null || true
 fi
 
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
@@ -305,7 +325,7 @@ fi
 # ==============================================================================
 echo ""
 echo -e "${GREEN}==============================================================================${NC}"
-echo -e "${BOLD}${GREEN}   [SUCCESS] INSTALLATION & CONFIGURATION COMPLETED!   ${NC}"
+echo -e "${BOLD}${GREEN}   [SUCCESS] Para la comunidad con amor del sultan - Setup Completed!   ${NC}"
 echo -e "${GREEN}==============================================================================${NC}"
 echo ""
 echo -e "${CYAN}Key Features Ready for Pentesting & CTFs:${NC}"
