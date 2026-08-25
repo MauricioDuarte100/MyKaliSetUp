@@ -1,14 +1,14 @@
 # ==============================================================================
-# 🛡️ ZSH CONFIGURATION - KALI CYBER ENVIRONMENT (xct Inspired)
+# ZSH CONFIGURATION - KALI CYBER ENVIRONMENT (xct Inspired)
 # ==============================================================================
 
-# Ruta de Oh-My-Zsh
+# Oh-My-Zsh Path
 export ZSH="$HOME/.oh-my-zsh"
 
-# Configuración de Tema
+# Theme Configuration
 ZSH_THEME="robbyrussell"
 
-# Plugins de Alta Productividad
+# High-Productivity Plugins
 plugins=(
     git
     sudo
@@ -20,20 +20,20 @@ plugins=(
     fzf-tab
 )
 
-# Cargar Oh-My-Zsh si existe
+# Load Oh-My-Zsh
 if [ -f "$ZSH/oh-my-zsh.sh" ]; then
     source "$ZSH/oh-my-zsh.sh"
 fi
 
 # ==============================================================================
-# 🎨 CUSTOM HACKER PROMPT (Con Target IP y VPN en tiempo real)
+# CUSTOM HACKER PROMPT (Real-time Target & VPN status)
 # ==============================================================================
 prompt_target_status() {
     local target_file="$HOME/.config/i3/target"
     if [ -f "$target_file" ]; then
         local target=$(cat "$target_file" 2>/dev/null | xargs)
         if [ -n "$target" ]; then
-            echo "%{$fg_bold[red]%}🎯 $target%{$reset_color%} "
+            echo "%{$fg_bold[red]%}[TGT:$target]%{$reset_color%} "
         fi
     fi
 }
@@ -44,14 +44,14 @@ prompt_vpn_status() {
         vpn_ip=$(ip -4 addr show wg0 2>/dev/null | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
     fi
     if [ -n "$vpn_ip" ]; then
-        echo "%{$fg_bold[green]%}🔒 $vpn_ip%{$reset_color%} "
+        echo "%{$fg_bold[green]%}[VPN:$vpn_ip]%{$reset_color%} "
     fi
 }
 
-# Configuración del Prompt de 2 líneas
+# Two-line custom prompt
 setopt PROMPT_SUBST
 PROMPT='$(prompt_target_status)$(prompt_vpn_status)%{$fg_bold[cyan]%}%n@%m%{$reset_color%}:%{$fg_bold[blue]%}%~%{$reset_color%}$(git_prompt_info)
-%{$fg_bold[magenta]%}➜%{$reset_color%} '
+%{$fg_bold[magenta]%}>%{$reset_color%} '
 
 ZSH_THEME_GIT_PROMPT_PREFIX=" %{$fg[yellow]%}(git:"
 ZSH_THEME_GIT_PROMPT_SUFFIX=")%{$reset_color%}"
@@ -59,15 +59,15 @@ ZSH_THEME_GIT_PROMPT_DIRTY="*"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
 # ==============================================================================
-# ⌨️ CONFIGURACIÓN DE TECLADO Y BÚSQUEDA EN HISTORIAL
+# KEYBINDINGS & HISTORY SEARCH
 # ==============================================================================
-# Búsqueda en historial con flechas Arriba/Abajo (history-substring-search)
+# Search history with Up/Down arrows (history-substring-search)
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
-# Historial ampliado
+# Extended history configuration
 HISTSIZE=50000
 SAVEHIST=50000
 HISTFILE="$HOME/.zsh_history"
@@ -78,10 +78,10 @@ setopt HIST_REDUCE_BLANKS
 setopt HIST_IGNORE_SPACE
 
 # ==============================================================================
-# ⚡ ALIASES Y FUNCIONES DE CIBERSEGURIDAD Y PENTESTING
+# OFFENSIVE PENTESTING FUNCTIONS & ALIASES
 # ==============================================================================
 
-# --- Gestión de Target IP ---
+# Target IP Management
 settar() {
     local ip="$1"
     if [ -z "$ip" ]; then
@@ -92,14 +92,14 @@ settar() {
         if command -v xclip >/dev/null 2>&1; then
             echo -n "$ip" | xclip -selection clipboard
         fi
-        echo -e "\033[0;32m[+] Target fijado y copiado al portapapeles:\033[0m $ip"
+        echo -e "\033[0;32m[+] Target set and copied to clipboard:\033[0m $ip"
         pkill -RTMIN+1 i3blocks 2>/dev/null || true
     fi
 }
 
 cleartar() {
     > ~/.config/i3/target
-    echo -e "\033[1;33m[!] Target limpiado.\033[0m"
+    echo -e "\033[1;33m[!] Target cleared.\033[0m"
     pkill -RTMIN+1 i3blocks 2>/dev/null || true
 }
 
@@ -107,9 +107,9 @@ cptar() {
     local target=$(cat ~/.config/i3/target 2>/dev/null | xargs)
     if [ -n "$target" ]; then
         echo -n "$target" | xclip -selection clipboard 2>/dev/null
-        echo -e "\033[0;32m[+] Copiado al portapapeles:\033[0m $target"
+        echo -e "\033[0;32m[+] Copied to clipboard:\033[0m $target"
     else
-        echo -e "\033[0;31m[-] No hay Target fijado.\033[0m"
+        echo -e "\033[0;31m[-] No active Target set.\033[0m"
     fi
 }
 
@@ -117,7 +117,7 @@ target() {
     cat ~/.config/i3/target 2>/dev/null || echo "No Target set"
 }
 
-# --- Gestión de VPN IP ---
+# VPN IP Management
 cpvpn() {
     local vpn_ip=$(ip -4 addr show tun0 2>/dev/null | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
     if [ -z "$vpn_ip" ]; then
@@ -125,9 +125,9 @@ cpvpn() {
     fi
     if [ -n "$vpn_ip" ]; then
         echo -n "$vpn_ip" | xclip -selection clipboard 2>/dev/null
-        echo -e "\033[0;32m[+] IP de VPN copiada:\033[0m $vpn_ip"
+        echo -e "\033[0;32m[+] VPN IP copied:\033[0m $vpn_ip"
     else
-        echo -e "\033[0;31m[-] No hay VPN activa.\033[0m"
+        echo -e "\033[0;31m[-] No active VPN connection.\033[0m"
     fi
 }
 
@@ -138,38 +138,38 @@ vpn() {
 }
 
 myip() {
-    echo -n "🌐 Local IP:  " && ip route get 1.1.1.1 2>/dev/null | awk '{print $7}'
-    echo -n "🔒 VPN IP:    " && (vpn)
-    echo -n "🌍 Public IP: " && (curl -s --max-time 2 ifconfig.me || echo "Unavailable")
+    echo -n "Local IP:  " && ip route get 1.1.1.1 2>/dev/null | awk '{print $7}'
+    echo -n "VPN IP:    " && (vpn)
+    echo -n "Public IP: " && (curl -s --max-time 2 ifconfig.me || echo "Unavailable")
 }
 
-# --- Generador de Estructura de Carpetas para CTF ---
+# CTF Folder Structure Generator
 mktarget() {
     if [ -z "$1" ]; then
-        echo "Uso: mktarget <NombreDeLaMaquina>"
+        echo "Usage: mktarget <MachineName>"
         return 1
     fi
     local name="$1"
     mkdir -p "$name"/{nmap,exploits,content,loot,scripts}
     cd "$name" || return
-    echo -e "\033[0;32m[+] Estructura creada para:\033[0m $name"
+    echo -e "\033[0;32m[+] Directory structure created for:\033[0m $name"
     ls -la
 }
 
-# --- Servidor HTTP Rápido de Python ---
+# Quick Python HTTP Server
 http-server() {
     local port="${1:-80}"
-    echo -e "\033[0;32m[+] Servidor HTTP en puerto $port (Ctrl+C para detener)...\033[0m"
+    echo -e "\033[0;32m[+] HTTP Server running on port $port (Ctrl+C to stop)...\033[0m"
     python3 -m http.server "$port"
 }
 
-# --- Ver Puertos Abiertos Locales ---
+# Listening Ports Viewer
 ports() {
-    echo -e "\033[1;36m[+] Puertos a la escucha en el sistema local:\033[0m"
+    echo -e "\033[1;36m[+] Active listening sockets:\033[0m"
     sudo ss -tulpn | grep LISTEN
 }
 
-# --- Codificación y Decodificación Rápida ---
+# Quick Encoding & Decoding
 b64e() {
     if [ -z "$1" ]; then
         read -r input
@@ -194,21 +194,21 @@ urle() {
 }
 
 urld() {
-    python3 -c "import urllib.parse, sys; print(urllib.parse.decode(sys.argv[1] if len(sys.argv) > 1 else sys.stdin.read().strip()))" "$1"
+    python3 -c "import urllib.parse, sys; print(urllib.parse.unquote(sys.argv[1] if len(sys.argv) > 1 else sys.stdin.read().strip()))" "$1"
 }
 
-# --- Generador de Reverse Shells Rápido ---
+# Quick Reverse Shell Generator
 revshell() {
     local ip="${1:-$(vpn)}"
     local port="${2:-4444}"
     local type="${3:-bash}"
 
     if [ "$ip" = "No VPN connected" ] || [ -z "$ip" ]; then
-        echo -e "\033[0;31m[-] Por favor especifica una IP: revshell <IP> [PORT] [TYPE]\033[0m"
+        echo -e "\033[0;31m[-] Please specify an IP: revshell <IP> [PORT] [TYPE]\033[0m"
         return 1
     fi
 
-    echo -e "\033[1;36m=== Generador de Reverse Shells ($ip:$port) ===\033[0m\n"
+    echo -e "\033[1;36m=== Reverse Shell Payloads ($ip:$port) ===\033[0m\n"
     case "$type" in
         bash)
             echo -e "\033[1;33mBash TCP:\033[0m"
@@ -238,7 +238,7 @@ revshell() {
     esac
 }
 
-# --- Aliases Generales Mejorados ---
+# Enhanced Aliases
 alias ls='ls --color=auto'
 alias ll='ls -la --color=auto'
 alias la='ls -A --color=auto'
@@ -247,7 +247,7 @@ alias df='df -h'
 alias free='free -m'
 alias cat='batcat 2>/dev/null || bat 2>/dev/null || cat'
 
-# FZF configuraciones
+# FZF Configuration
 if command -v fzf >/dev/null 2>&1; then
     export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --color=bg+:#1f242c,bg:#0f141c,spinner:#7ee787,hl:#58a6ff,fg:#e6edf3,header:#58a6ff,info:#bc8cff,pointer:#ff7b72,marker:#7ee787,fg+:#ffffff,prompt:#58a6ff,hl+:#58a6ff'
 fi

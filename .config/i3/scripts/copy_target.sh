@@ -13,12 +13,12 @@ if [ -f "$TARGET_FILE" ]; then
             echo -n "$TARGET" | xclip -selection clipboard
         fi
         if command -v notify-send >/dev/null 2>&1; then
-            notify-send "🎯 Target Copiado" "$TARGET copiado al portapapeles." -i dialog-information -t 2000
+            notify-send "Target IP" "$TARGET copied to clipboard." -i dialog-information -t 2000
         fi
         exit 0
     fi
 fi
 
 if command -v notify-send >/dev/null 2>&1; then
-    notify-send "🎯 Target IP" "No hay ningún objetivo fijado actualmente." -i dialog-warning -t 2000
+    notify-send "Target IP" "No active target set." -i dialog-warning -t 2000
 fi

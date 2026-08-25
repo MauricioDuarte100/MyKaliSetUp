@@ -39,7 +39,7 @@ style = "Italic"
 family = "Iosevka Nerd Font"
 style = "Bold Italic"
 
-# Paleta de Colores Cyberpunk / Dark Pro
+# Cyber Dark Pro Color Palette
 [colors.primary]
 background = "#0f141c"
 foreground = "#e6edf3"

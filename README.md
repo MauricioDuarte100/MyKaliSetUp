@@ -1,149 +1,191 @@
-# 🛡️ Kali-Clean: Minimalist & High-Performance Cyber i3wm Environment
+# Kali-Clean: Minimalist & High-Performance i3wm Cyber Environment
 
-Un entorno de trabajo minimalista, ultra-ligero y de alto rendimiento basado en **i3wm** para **Kali Linux**, inspirado en el flujo de trabajo de **xct** (HackTheBox Omniscient) y optimizado específicamente para profesionales de **Ciberseguridad, Pentesting, Bug Bounty y CTF Solving**.
+Kali-Clean is a lightweight, ultra-fast tiling window manager environment based on **i3wm** for **Kali Linux**, tailored specifically for cybersecurity professionals, penetration testers, bug bounty hunters, and CTF players.
 
 ![Kali Clean Setup](.wallpaper/wallpaper.png)
 
 ---
 
-## ⚡ Características Principales (xct Edition)
+## Overview & Key Features
 
-- **Alacritty TOML (v0.13.0+)**: Configuración moderna de alto rendimiento con aceleración GPU, desenfoque sutil y paleta oscura Cyber Dark.
-- **Suite Completa de Plugins Zsh**:
-  - `zsh-autosuggestions`: Autocompletado predictivo inteligente basado en historial.
-  - `zsh-syntax-highlighting`: Resaltado de sintaxis en tiempo real para comandos.
-  - `fzf-tab`: Menú interactivo enriquecido con `fzf` al presionar `Tab`.
-  - `history-substring-search`: Búsqueda instantánea en el historial con flechas `Arriba` y `Abajo`.
-  - `sudo`: Pulsa `ESC` dos veces para anteponer `sudo` al comando actual.
-  - `extract`: Descompresor universal para cualquier formato de archivo comprimido.
-  - `colored-man-pages`: Páginas de manual con colores de sintaxis legibles.
-- **Prompt Hacker en Tiempo Real**:
-  - Muestra automáticamente el **Target IP** (`🎯 10.10.11.X`) y el **VPN IP** (`🔒 10.10.14.X`), rama Git y ruta activa.
-- **Tmux Master Setup (`.tmux.conf`)**:
-  - Soporte completo de ratón (selección, cambio de paneles, scroll de 50.000 líneas).
-  - Navegación rápida estilo Vim (`Alt + h/j/k/l` para cambiar paneles).
-  - División intuitiva (`Prefix + |` vertical, `Prefix + -` horizontal).
-  - Modo copia Vi integrado directamente con el portapapeles de X11 (`xclip`).
-  - Barra de estado personalizada con indicador de Target y VPN en tiempo real.
-- **Barra i3blocks Interactiva (Click-to-Copy)**:
-  - 🎯 **Target IP**: Clic izquierdo para copiar al portapapeles con notificación visual (`notify-send`). Clic derecho para cambiar el Target con Rofi.
-  - 🔒 **VPN Status**: Detección automática de OpenVPN (`tun0`) y WireGuard (`wg0`). Clic izquierdo para copiar tu IP de VPN.
-- **Scratchpad Terminal Desplegable (`Mod + u`)**: Terminal flotante instantánea desde cualquier workspace para cálculos rápidos o payloads.
-- **Rofi Power Menu (`Mod + Shift + e`)**: Menú visual interactivo para Bloquear, Cerrar sesión, Reiniciar o Apagar.
-- **Gestión Limpia de Entornos (GNOME/XFCE)**: El instalador permite desinstalar entornos pesados de forma segura, reduciendo el consumo de memoria a menos de **~350 MB de RAM en reposo**.
-- **Portapapeles en Máquinas Virtuales**: Sincronización instantánea para VMware, VirtualBox y QEMU/KVM.
+- **Modern Alacritty (v0.13.0+ TOML)**: GPU-accelerated terminal emulator configured via native TOML format with dark high-contrast styling and custom font rendering.
+- **Productive Zsh Suite**:
+  - `zsh-autosuggestions`: Fast history-based command autosuggestions.
+  - `zsh-syntax-highlighting`: Real-time fish-like syntax validation for commands.
+  - `fzf-tab`: Interactive fuzzy completion menu on Tab key.
+  - `history-substring-search`: Search historical commands by prefix using Up and Down arrows.
+  - `sudo`: Press `ESC` twice to prepend `sudo` to the current line.
+  - `extract`: Universal archive extractor supporting all major compression formats.
+  - `colored-man-pages`: Colorized terminal manual pages.
+- **Real-Time Target & VPN Indicators**: Live tracking of active target IP and VPN status across the status bar, tmux bar, and terminal prompt.
+- **Tmux Master Configuration**: Mouse scrolling, Vim-style pane navigation, 50,000-line scrollback buffer, and X11 clipboard integration via `xclip`.
+- **Interactive i3blocks Status Bar**: Click-to-copy functionality for VPN and Target IP with desktop notifications.
+- **Scratchpad Floating Terminal**: Instant dropdown terminal available on demand from any workspace.
+- **Desktop Environment Optimization**: Safe removal of heavy desktop environments (GNOME/XFCE) to reduce idle memory usage to under **350 MB RAM**.
+- **Virtual Machine Clipboard Synchronization**: Built-in support for VMware, VirtualBox, and QEMU/KVM clipboard sharing.
 
 ---
 
-## 🚀 Instalación Rápida
+## Installation Guide
 
-Ejecuta el instalador desde tu usuario estándar (el script solicitará permisos de `sudo` cuando sea necesario):
+### Prerequisites
+Run the installer from a standard user account with `sudo` privileges. Do not run the installer using `sudo ./install.sh` directly.
 
-```bash
-git clone https://github.com/MauricioDuarte100/MyKaliSetUp.git
-cd MyKaliSetUp
-chmod +x install.sh
-./install.sh
-```
+### Step-by-Step Installation
 
-Al finalizar la instalación, reinicia el sistema:
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/MauricioDuarte100/MyKaliSetUp.git
+   cd MyKaliSetUp
+   ```
 
-```bash
-sudo reboot
-```
+2. **Grant execution permissions and run the installer**:
+   ```bash
+   chmod +x install.sh
+   ./install.sh
+   ```
 
-> **Personalización:** Ejecuta `lxappearance` para activar el tema visual **Arc-Dark** y el set de iconos **Papirus-Dark**.
+3. **Reboot the system**:
+   ```bash
+   sudo reboot
+   ```
+
+4. **Post-Installation Appearance Setup**:
+   Once logged in, open a terminal (`Mod + Return`), launch `lxappearance`, and select:
+   - **Widget Theme**: `Arc-Dark`
+   - **Icon Theme**: `Papirus-Dark`
 
 ---
 
-## ⌨️ Atajos de Teclado (Cheat Sheet)
+## Workspace Architecture
 
-> La tecla **`Mod`** está configurada por defecto como **`Super`** (Tecla Windows).
+Applications are organized across predefined dedicated workspaces:
 
-### 🪟 Aplicaciones & Sistema
-| Atajo | Acción |
+| Workspace | Name | Assigned Applications |
+| :--- | :--- | :--- |
+| **1** | `1:Terminals` | Alacritty, Tmux, Shell Sessions |
+| **2** | `2:Web` | Firefox, Chromium, Web Reconnaissance |
+| **3** | `3:Proxies` | Burp Suite, OWASP ZAP, Wireshark |
+| **4** | `4:Reverse` | Ghidra, IDA Pro, Binary Ninja, GDB |
+| **5** | `5:Notes` | Obsidian, CherryTree, Documentation |
+
+---
+
+## Keybindings Reference
+
+> The default modifier key (**`Mod`**) is bound to the **`Super`** key (Windows Key).
+
+### System & Window Management
+
+| Shortcut | Function |
 | :--- | :--- |
-| **`Mod + Return`** | Abrir Terminal principal (**Alacritty**) |
-| **`Mod + u`** | 🚀 Desplegar / Ocultar **Terminal Scratchpad Flotante** |
-| **`Mod + d`** | Lanzador de Comandos (**Rofi Run**) |
-| **`Mod + Shift + d`** | Lanzador de Aplicaciones (**Rofi Drun**) |
-| **`Mod + w`** | Abrir Navegador (**Firefox**) |
-| **`Mod + f`** | Gestor de Archivos (**Thunar**) |
-| **`Mod + Shift + q`** | Cerrar Ventana Enfocada |
-| **`Mod + Shift + r`** | Reiniciar i3 (Recargar cambios al instante) |
-| **`Mod + Shift + c`** | Recargar Configuración de i3 |
-| **`Mod + Shift + e`** | 🛑 **Menú de Apagado / Salida (Rofi Power Menu)** |
-| **`Mod + Shift + Escape`** | Bloquear Pantalla (**i3lock**) |
+| **`Mod + Return`** | Open Terminal (Alacritty) |
+| **`Mod + u`** | Toggle Scratchpad Floating Terminal |
+| **`Mod + d`** | Open Command Launcher (Rofi Run) |
+| **`Mod + Shift + d`** | Open Application Launcher (Rofi Drun) |
+| **`Mod + w`** | Open Web Browser (Firefox) |
+| **`Mod + f`** | Open File Manager (Thunar) |
+| **`Mod + Shift + q`** | Close Focused Window |
+| **`Mod + Shift + r`** | Restart i3wm in place |
+| **`Mod + Shift + c`** | Reload i3wm configuration |
+| **`Mod + Shift + e`** | Open Power / Session Menu (Rofi) |
+| **`Mod + Shift + Escape`** | Lock Screen (i3lock) |
 
-### 🎯 Herramientas de Ciberseguridad & CTF
-| Atajo | Acción |
+### Cybersecurity & CTF Tools
+
+| Shortcut | Function |
 | :--- | :--- |
-| **`Mod + c`** | 📋 **Copiar Target IP al portapapeles** (con notificación) |
-| **`Mod + Shift + t`** | 🎯 Establecer **Target IP** (Prompt visual con Rofi) |
-| **`Mod + Shift + x`** | ❌ Limpiar **Target IP** de la barra |
-| **`Mod + Shift + b`** | Abrir **Burp Suite** (Auto-asignado a Workspace 3) |
-| **`Mod + Shift + w`** | Abrir **Wireshark** (Auto-asignado a Workspace 3) |
-| **`Mod + P`** | Captura de pantalla interactiva (**Flameshot**) |
-| **`Print`** | Captura de pantalla completa (`~/Pictures/Screenshots`) |
+| **`Mod + c`** | Copy current Target IP to clipboard |
+| **`Mod + Shift + t`** | Set Target IP via GUI prompt (Rofi) |
+| **`Mod + Shift + x`** | Clear active Target IP |
+| **`Mod + Shift + b`** | Launch Burp Suite (Workspace 3) |
+| **`Mod + Shift + w`** | Launch Wireshark (Workspace 3) |
+| **`Mod + P`** | Interactive Screenshot (Flameshot) |
+| **`Print`** | Full-Screen Screenshot (`~/Pictures/Screenshots`) |
 
-### 📐 Espacios de Trabajo Preconfigurados
-* **Workspace 1 (`1:Terminals`)**: Alacritty / Tmux
-* **Workspace 2 (`2:Web`)**: Firefox / Chromium
-* **Workspace 3 (`3:Proxies`)**: Burp Suite / Wireshark / OWASP ZAP
-* **Workspace 4 (`4:Reverse`)**: Ghidra / IDA / Binary Ninja / GDB
-* **Workspace 5 (`5:Notes`)**: Obsidian / CherryTree / Notetaking
+### Navigation & Layout Controls
 
----
-
-## 💻 Tmux Cheat Sheet (CTF & Pentesting)
-
-| Atajo | Acción |
+| Shortcut | Function |
 | :--- | :--- |
-| **`Alt + h / j / k / l`** | Cambiar de panel (Navegación estilo Vim sin prefijo) |
-| **`Ctrl + b` luego `\|`** | Dividir panel **verticalmente** |
-| **`Ctrl + b` luego `-`** | Dividir panel **horizontalmente** |
-| **`Ctrl + b` luego `y`** | Alternar **sincronización de paneles** (escribe en todos a la vez) |
-| **`Ctrl + b` luego `[`** | Entrar en **Modo Copia Vi** (`v` para seleccionar, `y` para copiar a X11) |
-| **`Ctrl + b` luego `r`** | Recargar configuración de Tmux |
-| **Arrastrar con el ratón** | Seleccionar texto y copiar automáticamente al portapapeles |
+| **`Mod + j / k / l / ;`** | Move focus (Left / Down / Up / Right) |
+| **`Mod + Left / Down / Up / Right`** | Move focus using arrow keys |
+| **`Mod + Shift + [j/k/l/;]`** | Move focused container in specified direction |
+| **`Mod + h`** | Split container horizontally |
+| **`Mod + v`** | Split container vertically |
+| **`Mod + Shift + f`** | Toggle fullscreen mode |
+| **`Mod + Shift + Space`** | Toggle floating mode for focused window |
+| **`Mod + Space`** | Toggle focus between tiling and floating windows |
+| **`Mod + 1 .. 0`** | Switch to Workspace 1 through 10 |
+| **`Mod + Shift + 1 .. 0`** | Move container to Workspace 1 through 10 |
+| **`Mod + r`** | Enter Resize mode (`Escape` or `Return` to exit) |
 
 ---
 
-## 🛠️ Comandos de Terminal Útiles (Zsh & Bash)
+## Interactive Status Bar (i3blocks)
 
-- **`settar <IP>`**: Establece la IP objetivo y la copia automáticamente al portapapeles.
-- **`cptar`**: Copia la IP objetivo al portapapeles en cualquier momento.
-- **`cleartar`**: Limpia la IP objetivo actual.
-- **`target`**: Muestra la IP objetivo configurada.
-- **`cpvpn`**: Copia la IP de tu VPN activa (`tun0` / `wg0`) al portapapeles.
-- **`vpn`**: Muestra la IP de tu túnel VPN.
-- **`myip`**: Muestra tus IPs Local, VPN y Pública de forma instantánea.
-- **`revshell <IP> <PORT> [tipo]`**: Genera comandos de reverse shells listos para usar (`bash`, `nc`, `python`, `powershell`).
-- **`mktarget <Nombre>`**: Genera automáticamente la estructura de carpetas para una máquina CTF (`nmap`, `exploits`, `content`, `loot`, `scripts`).
-- **`ports`**: Muestra los puertos y servicios locales escuchando en el sistema (`ss -tulpn`).
-- **`b64e <texto>` / `b64d <texto>`**: Codifica y decodifica Base64 al instante.
-- **`urle <texto>` / `urld <texto>`**: URL-encode / URL-decode rápido.
-- **`http-server [puerto]`**: Inicia un servidor web HTTP de Python en el directorio actual (puerto 80 por defecto).
-- **`extract <archivo>`**: Descomprime automáticamente cualquier tipo de archivo comprimido (`.tar.gz`, `.zip`, `.7z`, `.tar.bz2`, etc.).
+The top status bar provides real-time diagnostic information and interactive controls:
+
+- **Target Block**:
+  - **Left Click**: Copies the Target IP directly to the system clipboard and displays a desktop notification.
+  - **Right Click**: Opens the Rofi prompt to set a new Target IP or clear it.
+- **VPN Block**:
+  - Automatically monitors `tun0` (OpenVPN) and `wg0` (WireGuard) interfaces.
+  - **Left Click**: Copies the active VPN IP address to the clipboard.
 
 ---
 
-## 🎨 Personalización del Fondo de Pantalla
+## Tmux Terminal Multiplexer
 
-Para cambiar el fondo de pantalla por una imagen personalizada:
+A pre-configured `.tmux.conf` file is included, optimized for multi-pane hacking sessions:
 
-1. Coloca tu imagen en `~/.wallpaper/wallpaper.png` (o edita `~/.fehbg`).
-2. Aplica el cambio ejecutando:
+| Shortcut | Function |
+| :--- | :--- |
+| **`Alt + h / j / k / l`** | Navigate between panes without prefix |
+| **`Ctrl + b` then `\|`** | Split pane vertically |
+| **`Ctrl + b` then `-`** | Split pane horizontally |
+| **`Ctrl + b` then `y`** | Toggle pane synchronization (send input to all panes simultaneously) |
+| **`Ctrl + b` then `[`** | Enter Vi copy mode (`v` to select, `y` to copy to X11 clipboard) |
+| **`Ctrl + b` then `r`** | Reload Tmux configuration file |
+| **Mouse Click & Drag** | Select and copy text directly to the system clipboard |
+
+---
+
+## Offensive Shell Commands & Aliases
+
+The environment includes specialized productivity functions available in Zsh and Bash:
+
+- **`settar <IP>`**: Sets the global Target IP, copies it to the clipboard, and refreshes status bars.
+- **`cptar`**: Copies the active Target IP to the clipboard.
+- **`cleartar`**: Clears the active Target IP.
+- **`target`**: Displays the active Target IP in the terminal.
+- **`cpvpn`**: Copies the active VPN IP address to the clipboard.
+- **`vpn`**: Displays the current VPN interface IP address.
+- **`myip`**: Outputs local, VPN, and public IP addresses.
+- **`revshell <IP> <PORT> [type]`**: Generates reverse shell payloads (supports `bash`, `nc`, `python`, and `powershell`).
+- **`mktarget <Name>`**: Generates structured CTF working directories (`nmap`, `exploits`, `content`, `loot`, `scripts`).
+- **`ports`**: Lists all active listening TCP/UDP sockets with process identification (`ss -tulpn`).
+- **`b64e <string>` / `b64d <string>`**: Fast Base64 encoding and decoding.
+- **`urle <string>` / `urld <string>`**: Fast URL encoding and decoding.
+- **`http-server [port]`**: Starts a Python HTTP server in the current directory (default port: 80).
+- **`extract <file>`**: Universal archive extraction command.
+
+---
+
+## Customization
+
+### Changing Wallpaper
+1. Copy your desired wallpaper image to `~/.wallpaper/wallpaper.png`.
+2. Reload the wallpaper:
    ```bash
    sh ~/.fehbg
    ```
-3. Generar esquemas de colores automáticos con `pywal`:
+3. To generate a dynamic color scheme using `pywal`:
    ```bash
    wal -i ~/.wallpaper/wallpaper.png
    ```
 
 ---
 
-## 📜 Licencia
+## License
 
-Distribuido bajo la Licencia MIT. ¡Libre para usar, modificar y compartir en tus auditorías y laboratorios de hacking!
+Distributed under the MIT License. Free for personal, academic, and professional penetration testing use.

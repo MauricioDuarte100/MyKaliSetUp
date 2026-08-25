@@ -4,7 +4,6 @@
 # VPN STATUS SCRIPT (i3blocks) - With Click-to-Copy
 # ==============================================================================
 
-# Detect VPN IP (OpenVPN tun0 or Wireguard wg0)
 VPN_IP=$(ip -4 addr show tun0 2>/dev/null | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
 
 if [ -z "$VPN_IP" ]; then
@@ -21,7 +20,7 @@ case "$BLOCK_BUTTON" in
         if [ -n "$VPN_IP" ]; then
             echo -n "$VPN_IP" | xclip -selection clipboard 2>/dev/null
             if command -v notify-send >/dev/null 2>&1; then
-                notify-send "🔒 VPN IP Copiada" "$VPN_IP copiada al portapapeles." -i network-vpn -t 2000
+                notify-send "VPN IP" "$VPN_IP copied to clipboard." -i network-vpn -t 2000
             fi
         fi
         ;;

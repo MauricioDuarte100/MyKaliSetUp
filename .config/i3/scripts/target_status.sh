@@ -17,7 +17,7 @@ case "$BLOCK_BUTTON" in
         if [ -n "$TARGET" ]; then
             echo -n "$TARGET" | xclip -selection clipboard 2>/dev/null
             if command -v notify-send >/dev/null 2>&1; then
-                notify-send "🎯 Target IP Copiada" "$TARGET copiada al portapapeles." -i dialog-information -t 2000
+                notify-send "Target IP" "$TARGET copied to clipboard." -i dialog-information -t 2000
             fi
         fi
         ;;

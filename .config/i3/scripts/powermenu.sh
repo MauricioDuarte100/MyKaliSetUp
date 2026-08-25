@@ -4,24 +4,24 @@
 # ROFI POWER MENU - KALI CYBER ENVIRONMENT
 # ==============================================================================
 
-options="🔒 Bloquear Pantalla\n🚪 Cerrar Sesión (i3)\n🔄 Reiniciar Sistema\n🛑 Apagar Sistema\n💤 Suspender"
+options="Lock Screen\nLogout\nReboot\nShutdown\nSuspend"
 
-chosen=$(echo -e "$options" | rofi -dmenu -p "⚡ Sistema" -theme-str 'window {width: 320px;}')
+chosen=$(echo -e "$options" | rofi -dmenu -p "System" -theme-str 'window {width: 280px;}')
 
 case "$chosen" in
-    "🔒 Bloquear Pantalla")
+    "Lock Screen")
         i3lock -c 0f141c
         ;;
-    "🚪 Cerrar Sesión (i3)")
+    "Logout")
         i3-msg exit
         ;;
-    "🔄 Reiniciar Sistema")
+    "Reboot")
         systemctl reboot
         ;;
-    "🛑 Apagar Sistema")
+    "Shutdown")
         systemctl poweroff
         ;;
-    "💤 Suspender")
+    "Suspend")
         systemctl suspend
         ;;
 esac
