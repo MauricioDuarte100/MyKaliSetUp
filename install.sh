@@ -76,6 +76,7 @@ BASE_PKGS=(
     i3status
     i3lock
     alacritty
+    xterm
     picom
     feh
     rofi
@@ -324,11 +325,16 @@ if [ ! -d "$ZSH_CUSTOM/plugins/zsh-history-substring-search" ]; then
     log_info "Installing plugin: zsh-history-substring-search..."
     git clone https://github.com/zsh-users/zsh-history-substring-search "$ZSH_CUSTOM/plugins/zsh-history-substring-search" 2>/dev/null || true
 fi
+ln -sf "$ZSH_CUSTOM/plugins/zsh-history-substring-search" "$ZSH_CUSTOM/plugins/history-substring-search" 2>/dev/null || true
 
-# Deploy master .zshrc
+# Deploy master .zshrc and .bashrc
 if [ -f .zshrc ]; then
     cp .zshrc "$HOME/.zshrc"
     log_success "Master .zshrc deployed successfully."
+fi
+if [ -f .bashrc ]; then
+    cp .bashrc "$HOME/.bashrc"
+    log_success "Master .bashrc deployed successfully."
 fi
 
 # Set default user shell to zsh

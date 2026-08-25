@@ -11,10 +11,81 @@ configuration {
     location: 0;
     disable-history: false;
     hide-scrollbar: true;
-    display-drun: " Apps ";
-    display-run: " Run ";
-    display-window: " Window ";
+    display-drun: " 🚀 Apps ";
+    display-run: " ⚡ Run ";
+    display-window: " 🪟 Windows ";
     sidebar-mode: true;
 }
 
-@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+* {
+    bg: #0f141c;
+    bg-alt: #1f242c;
+    fg: #e6edf3;
+    fg-alt: #7d8590;
+    blue: #58a6ff;
+    border-col: #58a6ff;
+
+    background-color: @bg;
+    text-color: @fg;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+}
+
+window {
+    width: 600px;
+    border: 2px solid;
+    border-color: @border-col;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+inputbar {
+    children: [prompt, entry];
+    background-color: @bg-alt;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 0 0 10px 0;
+}
+
+prompt {
+    text-color: @blue;
+    padding: 0 8px 0 0;
+    background-color: transparent;
+}
+
+entry {
+    placeholder: "Search...";
+    placeholder-color: @fg-alt;
+    background-color: transparent;
+    text-color: @fg;
+}
+
+listview {
+    lines: 8;
+    columns: 1;
+    scrollbar: false;
+}
+
+element {
+    padding: 8px 12px;
+    border-radius: 6px;
+    spacing: 8px;
+    background-color: transparent;
+}
+
+element selected {
+    background-color: @bg-alt;
+    text-color: @blue;
+}
+
+element-icon {
+    size: 24px;
+    background-color: transparent;
+}
+
+element-text {
+    vertical-align: 0.5;
+    background-color: transparent;
+    text-color: inherit;
+}

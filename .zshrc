@@ -26,6 +26,10 @@ plugins=(
 # Load Oh-My-Zsh if installed
 if [ -f "$ZSH/oh-my-zsh.sh" ]; then
     source "$ZSH/oh-my-zsh.sh"
+else
+    autoload -Uz compinit && compinit -C 2>/dev/null || compinit 2>/dev/null
+    zstyle ':completion:*' menu select 2>/dev/null || true
+    zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 2>/dev/null || true
 fi
 
 # ==============================================================================
