@@ -211,7 +211,7 @@ for_window [instance="scratchpad"] floating enable, resize set 1100 650, move po
 exec_always --no-startup-id sh ~/.fehbg
 
 # Compositor (Transparencias y sombras modernas)
-exec_always --no-startup-id sh -c "killall -q picom compton 2>/dev/null; (command -v picom >/dev/null 2>&1 && picom -b --config ~/.config/picom/picom.conf) || (command -v compton >/dev/null 2>&1 && compton -b --config ~/.config/compton/compton.conf)"
+exec_always --no-startup-id sh -c "killall -q picom 2>/dev/null; picom -b --config ~/.config/picom/picom.conf"
 
 # Gestor de Portapapeles para VMs (VMware, VirtualBox, KVM)
 exec_always --no-startup-id ~/.config/i3/clipboard_fix.sh

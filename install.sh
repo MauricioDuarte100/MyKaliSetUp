@@ -87,7 +87,6 @@ BASE_PKGS=(
     imagemagick
     arandr
     brightnessctl
-    xbacklight
     fonts-font-awesome
     fonts-roboto
     git
@@ -133,8 +132,8 @@ FONT_DIR="$HOME/.local/share/fonts"
 
 if [ ! -f "$FONT_DIR/IosevkaNerdFont-Regular.ttf" ] && [ ! -f "$FONT_DIR/Iosevka.zip" ]; then
     log_info "Downloading Iosevka Nerd Font..."
-    wget -q --show-progress -O /tmp/Iosevka.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Iosevka.zip || \
-    wget -q --show-progress -O /tmp/Iosevka.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Iosevka.zip || true
+    wget -q --show-progress -O /tmp/Iosevka.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Iosevka.zip || \
+    wget -q --show-progress -O /tmp/Iosevka.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Iosevka.zip || true
     if [ -f /tmp/Iosevka.zip ]; then
         unzip -qo /tmp/Iosevka.zip -d "$FONT_DIR/" 2>/dev/null || true
         rm -f /tmp/Iosevka.zip
@@ -143,8 +142,8 @@ fi
 
 if [ ! -f "$FONT_DIR/RobotoMonoNerdFont-Regular.ttf" ] && [ ! -f "$FONT_DIR/RobotoMono.zip" ]; then
     log_info "Downloading RobotoMono Nerd Font..."
-    wget -q --show-progress -O /tmp/RobotoMono.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/RobotoMono.zip || \
-    wget -q --show-progress -O /tmp/RobotoMono.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/RobotoMono.zip || true
+    wget -q --show-progress -O /tmp/RobotoMono.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/RobotoMono.zip || \
+    wget -q --show-progress -O /tmp/RobotoMono.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/RobotoMono.zip || true
     if [ -f /tmp/RobotoMono.zip ]; then
         unzip -qo /tmp/RobotoMono.zip -d "$FONT_DIR/" 2>/dev/null || true
         rm -f /tmp/RobotoMono.zip
@@ -170,7 +169,6 @@ mkdir -p ~/.config/i3/scripts
 mkdir -p ~/.config/alacritty
 mkdir -p ~/.config/rofi
 mkdir -p ~/.config/picom
-mkdir -p ~/.config/compton
 mkdir -p ~/.config/dunst
 mkdir -p ~/.wallpaper
 mkdir -p ~/Pictures/Screenshots
@@ -179,7 +177,7 @@ mkdir -p ~/Pictures/Screenshots
 cp -r .config/i3/* ~/.config/i3/ 2>/dev/null || true
 cp -r .config/i3/scripts/* ~/.config/i3/scripts/ 2>/dev/null || true
 cp .config/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml 2>/dev/null || true
-cp .config/rofi/config* ~/.config/rofi/ 2>/dev/null || true
+cp .config/rofi/config.rasi ~/.config/rofi/config.rasi 2>/dev/null || true
 cp .config/picom/picom.conf ~/.config/picom/picom.conf 2>/dev/null || true
 cp .config/dunst/dunstrc ~/.config/dunst/dunstrc 2>/dev/null || true
 
