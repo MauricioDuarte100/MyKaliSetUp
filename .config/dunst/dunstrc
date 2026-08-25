@@ -1,0 +1,83 @@
+# ==============================================================================
+# 🛡️ DUNST CONFIGURATION - KALI CYBER THEME (xct Inspired)
+# ==============================================================================
+
+[global]
+    monitor = 0
+    follow = mouse
+    
+    # Geometría y Posición
+    width = (300, 420)
+    height = 200
+    origin = top-right
+    offset = 20x45
+    scale = 0
+    notification_limit = 5
+
+    # Estilo y Bordes
+    progress_bar = true
+    progress_bar_height = 8
+    progress_bar_frame_width = 1
+    progress_bar_min_width = 150
+    progress_bar_max_width = 300
+    progress_bar_corner_radius = 4
+    
+    corner_radius = 8
+    transparency = 10
+    separator_height = 2
+    padding = 12
+    horizontal_padding = 14
+    text_icon_padding = 12
+    frame_width = 2
+    frame_color = "#58a6ff"
+    separator_color = frame
+
+    # Tipografía
+    font = RobotoMono Nerd Font 10
+    line_height = 0
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    vertical_alignment = center
+    show_age_threshold = 60
+    ellipsize = middle
+    ignore_newline = false
+    stack_duplicates = true
+    hide_duplicate_count = false
+    show_indicators = true
+
+    # Iconos
+    enable_recursive_icon_lookup = true
+    icon_theme = "Papirus-Dark"
+    icon_position = left
+    min_icon_size = 24
+    max_icon_size = 48
+
+    # Comportamiento
+    sort = yes
+    idle_threshold = 120
+    sticky_history = yes
+    history_length = 20
+    dmenu = /usr/bin/rofi -dmenu -p dunst:
+    browser = /usr/bin/firefox -new-tab
+    always_run_script = true
+    title = Dunst
+    class = Dunst
+
+[urgency_low]
+    background = "#0f141c"
+    foreground = "#8b949e"
+    frame_color = "#30363d"
+    timeout = 3
+
+[urgency_normal]
+    background = "#0f141c"
+    foreground = "#e6edf3"
+    frame_color = "#58a6ff"
+    timeout = 4
+
+[urgency_critical]
+    background = "#1a0f12"
+    foreground = "#ff7b72"
+    frame_color = "#ff7b72"
+    timeout = 0

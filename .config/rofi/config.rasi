@@ -1,0 +1,20 @@
+/* ==============================================================================
+ * ROFI CONFIGURATION (RASI Format) - KALI CYBER ENVIRONMENT
+ * ============================================================================== */
+
+configuration {
+    modi: "drun,run,window";
+    font: "RobotoMono Nerd Font 11";
+    show-icons: true;
+    terminal: "alacritty";
+    drun-display-format: "{icon} {name}";
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: true;
+    display-drun: " 🚀 Apps ";
+    display-run: " ⚡ Run ";
+    display-window: " 🪟 Window ";
+    sidebar-mode: true;
+}
+
+@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
