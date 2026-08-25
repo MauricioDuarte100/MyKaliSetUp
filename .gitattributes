@@ -1,0 +1,10 @@
+# Ensure LF line endings for shell scripts and dotfiles
+* text=auto eol=lf
+*.sh text eol=lf
+*.conf text eol=lf
+*.toml text eol=lf
+*.rasi text eol=lf
+.fehbg text eol=lf
+.zshrc text eol=lf
+.tmux.conf text eol=lf
+dunstrc text eol=lf
