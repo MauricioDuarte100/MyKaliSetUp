@@ -194,6 +194,10 @@ cp .config/rofi/config.rasi ~/.config/rofi/config.rasi 2>/dev/null || true
 cp .config/picom/picom.conf ~/.config/picom/picom.conf 2>/dev/null || true
 cp .config/dunst/dunstrc ~/.config/dunst/dunstrc 2>/dev/null || true
 
+# Copy Shell configurations
+[ -f .zshrc ] && cp .zshrc ~/.zshrc 2>/dev/null || true
+[ -f .bashrc ] && cp .bashrc ~/.bashrc 2>/dev/null || true
+
 # Copy Tmux configuration
 cp .tmux.conf ~/.tmux.conf 2>/dev/null || true
 
@@ -205,6 +209,7 @@ cp .fehbg ~/.fehbg 2>/dev/null || true
 chmod +x ~/.fehbg 2>/dev/null || true
 chmod +x ~/.config/i3/clipboard_fix.sh 2>/dev/null || true
 chmod +x ~/.config/i3/scripts/*.sh 2>/dev/null || true
+chmod +x update.sh 2>/dev/null || true
 
 # Create default target file
 touch ~/.config/i3/target

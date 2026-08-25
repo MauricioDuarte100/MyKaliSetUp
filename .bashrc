@@ -1,43 +1,51 @@
 # ==============================================================================
-# 🛡️ ZSH CONFIGURATION - KALI CYBER ENVIRONMENT
+# 🛡️ BASH CONFIGURATION - KALI CYBER ENVIRONMENT
 # ==============================================================================
 
-# Enable Colors
-autoload -U colors && colors 2>/dev/null
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
 
-# Oh-My-Zsh Path
-export ZSH="$HOME/.oh-my-zsh"
+# History settings
+HISTCONTROL=ignoreboth
+shopt -s histappend
+HISTSIZE=50000
+HISTFILESIZE=50000
+shopt -s checkwinsize
 
-# Theme Configuration
-ZSH_THEME="robbyrussell"
+# Make less more friendly for non-text input files
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# High-Productivity Plugins
-plugins=(
-    git
-    sudo
-    extract
-    colored-man-pages
-    history-substring-search
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-    fzf-tab
-)
-
-# Load Oh-My-Zsh if installed
-if [ -f "$ZSH/oh-my-zsh.sh" ]; then
-    source "$ZSH/oh-my-zsh.sh"
+# Color prompt support
+if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    color_prompt=yes
+else
+    color_prompt=
 fi
 
 # ==============================================================================
-# HACKER PROMPT WITH REAL-TIME TARGET & VPN STATUS
+# CYBER PROMPT WITH TARGET & VPN BADGES
 # ==============================================================================
+prompt_git() {
+    local branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+    if [ -n "$branch" ]; then
+        local dirty=$(git status --porcelain 2>/dev/null | tail -n 1)
+        if [ -n "$dirty" ]; then
+            echo " \[\033[1;33m\](git:$branch*)\[\033[00m\]"
+        else
+            echo " \[\033[1;33m\](git:$branch)\[\033[00m\]"
+        fi
+    fi
+}
 
 prompt_target_status() {
     local target_file="$HOME/.config/i3/target"
     if [ -f "$target_file" ]; then
         local target=$(head -n 1 "$target_file" 2>/dev/null | xargs)
         if [ -n "$target" ]; then
-            echo "%B%F{red}[🎯 $target]%f%b "
+            echo "\[\033[1;31m\][🎯 $target]\[\033[00m\] "
         fi
     fi
 }
@@ -48,68 +56,38 @@ prompt_vpn_status() {
         vpn_ip=$(ip -4 addr show wg0 2>/dev/null | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
     fi
     if [ -n "$vpn_ip" ]; then
-        echo "%B%F{green}[🛡️ $vpn_ip]%f%b "
+        echo "\[\033[1;32m\][🛡️ $vpn_ip]\[\033[00m\] "
     fi
 }
 
-# Fallback git prompt if oh-my-zsh is not active
-if ! type git_prompt_info >/dev/null 2>&1; then
-    git_prompt_info() {
-        local branch=$(git symbolic-ref --short HEAD 2>/dev/null)
-        if [ -n "$branch" ]; then
-            local dirty=$(git status --porcelain 2>/dev/null | tail -n 1)
-            if [ -n "$dirty" ]; then
-                echo " %F{yellow}(git:$branch*)%f"
-            else
-                echo " %F{yellow}(git:$branch)%f"
-            fi
-        fi
-    }
-fi
+set_bash_prompt() {
+    local exit_code="$?"
+    local status_symbol=""
+    if [ "$exit_code" -eq 0 ]; then
+        status_symbol="\[\033[1;36m\]└─\$\[\033[00m\] "
+    else
+        status_symbol="\[\033[1;31m\]└─[$exit_code]✘\$\[\033[00m\] "
+    fi
 
-# Return code indicator
-prompt_status() {
-    echo "%(?.%B%F{cyan}└─$%f%b.%B%F{red}└─[%?]✘$%f%b) "
+    PS1="$(prompt_target_status)$(prompt_vpn_status)\[\033[1;36m\]┌──(\[\033[1;34m\]\u㉿\h\[\033[1;36m\])-[\[\033[1;37m\]\w\[\033[1;36m\]]\[\033[00m\]$(prompt_git)\n${status_symbol}"
 }
-
-# 2-Line Professional Cyber Prompt
-setopt PROMPT_SUBST
-PROMPT='$(prompt_target_status)$(prompt_vpn_status)%B%F{cyan}┌──(%F{blue}%n㉿%m%F{cyan})-[%F{white}%~%F{cyan}]%f%b$(git_prompt_info)
-$(prompt_status)'
+PROMPT_COMMAND=set_bash_prompt
 
 # ==============================================================================
 # WELCOME BANNER ON NEW TERMINALS
 # ==============================================================================
-if [[ -o interactive ]]; then
+if [ -t 1 ]; then
     _vpn_ip=$(ip -4 addr show tun0 2>/dev/null | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
     [ -z "$_vpn_ip" ] && _vpn_ip=$(ip -4 addr show wg0 2>/dev/null | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
     _tgt_ip=$(head -n 1 "$HOME/.config/i3/target" 2>/dev/null | xargs)
 
     echo ""
-    echo "\033[1;36m  ⚡ KALI CYBER ENVIRONMENT \033[0;90m| \033[0;32mSession: $(whoami)@$(hostname)\033[0m"
-    echo "\033[0;90m  ─────────────────────────────────────────────────────────\033[0m"
-    echo "\033[0;33m  • Target:\033[0m \033[1;31m${_tgt_ip:-No Target Set}\033[0m  \033[0;90m|\033[0m  \033[0;33m• VPN:\033[0m \033[1;32m${_vpn_ip:-No VPN Active}\033[0m"
-    echo "\033[0;90m  • Shortcuts: Mod+Return (Term) | Mod+u (Scratch) | Mod+d (Rofi)\033[0m"
+    echo -e "\033[1;36m  ⚡ KALI CYBER ENVIRONMENT \033[0;90m| \033[0;32mSession: $(whoami)@$(hostname)\033[0m"
+    echo -e "\033[0;90m  ─────────────────────────────────────────────────────────\033[0m"
+    echo -e "\033[0;33m  • Target:\033[0m \033[1;31m${_tgt_ip:-No Target Set}\033[0m  \033[0;90m|\033[0m  \033[0;33m• VPN:\033[0m \033[1;32m${_vpn_ip:-No VPN Active}\033[0m"
+    echo -e "\033[0;90m  • Shortcuts: Mod+Return (Term) | Mod+u (Scratch) | Mod+d (Rofi)\033[0m"
     echo ""
 fi
-
-# ==============================================================================
-# KEYBINDINGS & HISTORY SEARCH
-# ==============================================================================
-bindkey '^[[A' history-substring-search-up 2>/dev/null || bindkey '^[[A' up-line-or-history
-bindkey '^[[B' history-substring-search-down 2>/dev/null || bindkey '^[[B' down-line-or-history
-bindkey -M vicmd 'k' history-substring-search-up 2>/dev/null || true
-bindkey -M vicmd 'j' history-substring-search-down 2>/dev/null || true
-
-# Extended history configuration
-HISTSIZE=50000
-SAVEHIST=50000
-HISTFILE="$HOME/.zsh_history"
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_REDUCE_BLANKS
-setopt HIST_IGNORE_SPACE
 
 # ==============================================================================
 # OFFENSIVE PENTESTING FUNCTIONS & ALIASES
@@ -282,7 +260,11 @@ alias df='df -h'
 alias free='free -m'
 alias cat='batcat 2>/dev/null || bat 2>/dev/null || cat'
 
-# FZF Configuration
-if command -v fzf >/dev/null 2>&1; then
-    export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --color=bg+:#1f242c,bg:#0f141c,spinner:#7ee787,hl:#58a6ff,fg:#e6edf3,header:#58a6ff,info:#bc8cff,pointer:#ff7b72,marker:#7ee787,fg+:#ffffff,prompt:#58a6ff,hl+:#58a6ff'
+# Enable bash completion if available
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
 fi
